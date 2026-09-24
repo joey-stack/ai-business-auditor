@@ -1,0 +1,463 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;800&display=swap');
+
+@page {
+  size: 1080px 1350px;
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', sans-serif;
+  background: #0b132b;
+  color: #ffffff;
+}
+
+.slide {
+  width: 1080px;
+  height: 1350px;
+  padding: 80px 75px;
+  position: relative;
+  page-break-after: always;
+  background: radial-gradient(circle at 80% 20%, #1e293b 0%, #0f172a 60%, #0b132b 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.slide::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: linear-gradient(90deg, #2563eb, #38bdf8, #6366f1);
+}
+
+/* Slide Header */
+.slide-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 24px;
+}
+
+.author-badge {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.author-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2563eb, #38bdf8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 18px;
+  color: #ffffff;
+}
+
+.author-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.author-name {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 700;
+  font-size: 17px;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+}
+
+.author-title {
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.slide-counter {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 15px;
+  font-weight: 700;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  padding: 6px 14px;
+  border-radius: 20px;
+}
+
+/* Slide Content */
+.slide-body {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.tag-pill {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 6px 14px;
+  border-radius: 6px;
+  margin-bottom: 24px;
+}
+
+.tag-blue { background: rgba(37, 99, 235, 0.2); color: #60a5fa; border: 1px solid rgba(96, 165, 250, 0.3); }
+.tag-red { background: rgba(220, 38, 38, 0.2); color: #f87171; border: 1px solid rgba(248, 113, 113, 0.3); }
+.tag-amber { background: rgba(217, 119, 6, 0.2); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.3); }
+.tag-emerald { background: rgba(5, 150, 105, 0.2); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.3); }
+
+h1.slide-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 50px;
+  font-weight: 900;
+  line-height: 1.14;
+  letter-spacing: -0.03em;
+  margin: 0 0 24px 0;
+  color: #ffffff;
+}
+
+h1.slide-title span.highlight {
+  background: linear-gradient(90deg, #38bdf8, #818cf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+h2.slide-sub {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.45;
+  color: #cbd5e1;
+  margin: 0 0 32px 0;
+}
+
+/* Feature Cards */
+.card-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.feature-card {
+  background: rgba(30, 41, 59, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  padding: 24px 28px;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-number {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.card-content h3 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 6px 0;
+  color: #ffffff;
+}
+
+.card-content p {
+  font-size: 16px;
+  color: #94a3b8;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Big Number Callout */
+.big-stat-box {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.15) 0%, rgba(99, 102, 241, 0.15) 100%);
+  border: 1.5px solid rgba(56, 189, 248, 0.3);
+  border-radius: 16px;
+  padding: 36px 32px;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.stat-number {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 76px;
+  font-weight: 900;
+  line-height: 1;
+  color: #38bdf8;
+  margin-bottom: 12px;
+}
+
+.stat-label {
+  font-size: 20px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+
+.stat-subtext {
+  font-size: 15px;
+  color: #94a3b8;
+}
+
+/* Slide Footer */
+.slide-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 22px;
+}
+
+.footer-left {
+  font-size: 14px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.swipe-cue {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #38bdf8;
+}
+
+.swipe-arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+</style></head><body>
+        <div class="slide">
+          
+    <div class="slide-header">
+      <div class="author-badge">
+        <div class="author-avatar">JS</div>
+        <div class="author-info">
+          <span class="author-name">Joel Adawah Sani</span>
+          <span class="author-title">Principal Business Systems Consultant</span>
+        </div>
+      </div>
+      <div class="slide-counter">01 / 05</div>
+    </div>
+    
+          <div class="slide-body">
+            <span class="tag-pill tag-amber">Pricing Strategy</span>
+            <h1 class="slide-title">Why Single-Price Estimates <span class="highlight">Forfeit 22%</span> of Margin</h1>
+            <h2 class="slide-sub">The subconscious psychology of contractor quoting — and how choice architecture transforms ticket sizes.</h2>
+            <div class="big-stat-box">
+              <div class="stat-number">+22%</div>
+              <div class="stat-label">Average Ticket Size Lift</div>
+              <div class="stat-subtext">Observed across 15-van plumbing and HVAC contractors.</div>
+            </div>
+          </div>
+          
+    <div class="slide-footer">
+      <div class="footer-left">Executive Operational Architecture</div>
+      <div class="swipe-cue">SWIPE NEXT <span class="swipe-arrow">→</span></div>
+    </div>
+    
+        </div>
+        
+        <div class="slide">
+          
+    <div class="slide-header">
+      <div class="author-badge">
+        <div class="author-avatar">JS</div>
+        <div class="author-info">
+          <span class="author-name">Joel Adawah Sani</span>
+          <span class="author-title">Principal Business Systems Consultant</span>
+        </div>
+      </div>
+      <div class="slide-counter">02 / 05</div>
+    </div>
+    
+          <div class="slide-body">
+            <span class="tag-pill tag-red">The Flaw</span>
+            <h1 class="slide-title">The Binary Trap of Single Quotes</h1>
+            <h2 class="slide-sub">When you give a customer one number (e.g. $4,800), you force a binary decision:</h2>
+            <div class="card-stack">
+              <div class="feature-card">
+                <div class="card-number" style="color: #f87171;">VS</div>
+                <div class="card-content">
+                  <h3>"Should I buy this, or should I shop around?"</h3>
+                  <p>The client's brain immediately compares your single price against the entire market or decides to delay.</p>
+                </div>
+              </div>
+              <div class="feature-card">
+                <div class="card-number" style="color: #f87171;">!</div>
+                <div class="card-content">
+                  <h3>Zero Choice for Upgrades</h3>
+                  <p>Customers who value premium warranties, filtration, or higher-efficiency units are never given the chance to say yes.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+    <div class="slide-footer">
+      <div class="footer-left">Executive Operational Architecture</div>
+      <div class="swipe-cue">SWIPE NEXT <span class="swipe-arrow">→</span></div>
+    </div>
+    
+        </div>
+        
+        <div class="slide">
+          
+    <div class="slide-header">
+      <div class="author-badge">
+        <div class="author-avatar">JS</div>
+        <div class="author-info">
+          <span class="author-name">Joel Adawah Sani</span>
+          <span class="author-title">Principal Business Systems Consultant</span>
+        </div>
+      </div>
+      <div class="slide-counter">03 / 05</div>
+    </div>
+    
+          <div class="slide-body">
+            <span class="tag-pill tag-blue">The Architecture</span>
+            <h1 class="slide-title">The 3-Tier <span class="highlight">Choice Architecture</span></h1>
+            <h2 class="slide-sub">Switch field technicians to digital Good / Better / Best estimates:</h2>
+            <div class="card-stack">
+              <div class="feature-card">
+                <div class="card-number">01</div>
+                <div class="card-content">
+                  <h3>Tier 1: Standard (Baseline)</h3>
+                  <p>Solves the immediate mechanical failure. Standard 1-year warranty.</p>
+                </div>
+              </div>
+              <div class="feature-card">
+                <div class="card-number">02</div>
+                <div class="card-content">
+                  <h3>Tier 2: Enhanced (Most Popular)</h3>
+                  <p>Upgraded equipment + 5-year labor warranty + free seasonal tune-up.</p>
+                </div>
+              </div>
+              <div class="feature-card">
+                <div class="card-number">03</div>
+                <div class="card-content">
+                  <h3>Tier 3: Premium (Total Peace of Mind)</h3>
+                  <p>High-efficiency system + whole-home filtration + lifetime membership.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+    <div class="slide-footer">
+      <div class="footer-left">Executive Operational Architecture</div>
+      <div class="swipe-cue">SWIPE NEXT <span class="swipe-arrow">→</span></div>
+    </div>
+    
+        </div>
+        
+        <div class="slide">
+          
+    <div class="slide-header">
+      <div class="author-badge">
+        <div class="author-avatar">JS</div>
+        <div class="author-info">
+          <span class="author-name">Joel Adawah Sani</span>
+          <span class="author-title">Principal Business Systems Consultant</span>
+        </div>
+      </div>
+      <div class="slide-counter">04 / 05</div>
+    </div>
+    
+          <div class="slide-body">
+            <span class="tag-pill tag-emerald">The Outcome</span>
+            <h1 class="slide-title">The Psychological Shift</h1>
+            <h2 class="slide-sub">The customer's question shifts from external shopping to internal selection:</h2>
+            <div class="big-stat-box" style="border-color: rgba(52, 211, 153, 0.3); background: rgba(5, 150, 105, 0.1);">
+              <div class="stat-number" style="color: #34d399;">60%</div>
+              <div class="stat-label">Choose Tier 2 or Tier 3</div>
+              <div class="stat-subtext">Clients self-select higher tiers when choice architecture is clear.</div>
+            </div>
+            <div class="feature-card">
+              <div class="card-number">✓</div>
+              <div class="card-content">
+                <h3>Zero Extra Lead Costs</h3>
+                <p>Generating an extra $18,000 to $25,000 monthly from the exact same job volume.</p>
+              </div>
+            </div>
+          </div>
+          
+    <div class="slide-footer">
+      <div class="footer-left">Executive Operational Architecture</div>
+      <div class="swipe-cue">SWIPE NEXT <span class="swipe-arrow">→</span></div>
+    </div>
+    
+        </div>
+        
+        <div class="slide">
+          
+    <div class="slide-header">
+      <div class="author-badge">
+        <div class="author-avatar">JS</div>
+        <div class="author-info">
+          <span class="author-name">Joel Adawah Sani</span>
+          <span class="author-title">Principal Business Systems Consultant</span>
+        </div>
+      </div>
+      <div class="slide-counter">05 / 05</div>
+    </div>
+    
+          <div class="slide-body">
+            <span class="tag-pill tag-blue">Executive Deliverable</span>
+            <h1 class="slide-title">See the Full <span class="highlight">Economic Model</span></h1>
+            <h2 class="slide-sub">How this ties into our complete 4-Pillar Executive Diagnostic:</h2>
+            <div class="card-stack">
+              <div class="feature-card" style="border: 1.5px solid #38bdf8;">
+                <div class="card-number">📊</div>
+                <div class="card-content">
+                  <h3>Full Financial Leakage Model</h3>
+                  <p>Review the <strong>Deloitte Effort vs. Impact Prioritization Matrix</strong> in the sample audit in my <strong>Featured Section</strong>.</p>
+                </div>
+              </div>
+              <div class="feature-card">
+                <div class="card-number">🤝</div>
+                <div class="card-content">
+                  <h3>Connect with Joel Adawah Sani</h3>
+                  <p>DM me to audit your firm's quoting workflows and field software stack.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        <div class="slide-footer">
+          <div class="footer-left">Joel Adawah Sani | Executive Systems Diagnostics</div>
+          <div class="swipe-cue" style="color: #34d399;">SAVE & SHARE ✓</div>
+        </div>
+        
+        </div>
+        </body></html>

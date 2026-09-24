@@ -1,0 +1,65 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "antigravity-cheaper"
+version = "1.0.0"
+description = "Context optimization toolkit and FastMCP symbol server for Google Antigravity & Gemini agents"
+readme = "README.md"
+authors = [{ name = "9mirx0r", email = "300786992+9mirx0r@users.noreply.github.com" }]
+license = { text = "MIT" }
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Software Development :: Code Generators",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+keywords = ["antigravity", "gemini", "token-optimization", "ast", "pagerank", "fastmcp", "context-caching"]
+requires-python = ">=3.10"
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/9mirx0r/Antigravity-cheaper"
+Documentation = "https://github.com/9mirx0r/Antigravity-cheaper#readme"
+Repository = "https://github.com/9mirx0r/Antigravity-cheaper"
+Issues = "https://github.com/9mirx0r/Antigravity-cheaper/issues"
+Changelog = "https://github.com/9mirx0r/Antigravity-cheaper/releases"
+
+[project.optional-dependencies]
+mcp = ["mcp>=1.0.0"]
+dev = ["pytest>=7.0.0", "build", "twine"]
+
+[project.scripts]
+agy = "antigravity_cheaper.cli:main"
+agy-repomap = "antigravity_cheaper.agy_repomap:main"
+agy-prefix-lock = "antigravity_cheaper.agy_prefix_lock:main"
+agy-memory = "antigravity_cheaper.agy_memory:main"
+agy-pipeline = "antigravity_cheaper.agy_pipeline:main"
+agy-ast = "antigravity_cheaper.agy_ast:main"
+agy-pack = "antigravity_cheaper.agy_pack:main"
+agy-capsule = "antigravity_cheaper.agy_capsule:main"
+agy-ledger = "antigravity_cheaper.agy_ledger:main"
+agy-mcp-server = "antigravity_cheaper.agy_mcp_server:main"
+agy-setup = "antigravity_cheaper.agy_setup:main"
+agy-cache = "antigravity_cheaper.agy_cache_advisor:main"
+agy-stats = "antigravity_cheaper.agy_stats:main"
+agy-sanitize = "antigravity_cheaper.noise_sanitizer:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP"]
+ignore = ["E501"]
+

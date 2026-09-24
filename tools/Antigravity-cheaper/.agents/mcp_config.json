@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "agy-symbol-server": {
+      "command": "python",
+      "args": [
+        "-m",
+        "antigravity_cheaper.agy_mcp_server"
+      ],
+      "env": {
+        "PYTHONUNBUFFERED": "1"
+      }
+    }
+  }
+}

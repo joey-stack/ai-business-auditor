@@ -1,0 +1,35 @@
+# Environment & Secrets (NEVER PUSH TO GITHUB)
+.env
+*.env
+.env.*
+
+# Scratch & Temporary Logs
+scratch/
+.system_generated/
+*.log
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# Dependencies
+node_modules/
+
+# OS Specific
+.DS_Store
+Thumbs.db
+
+# Large Media Assets (Kept locally / cloud drives, excluded from git repo)
+*.mp4
+*.mov
+*.avi
+*.webm
+
+# Build Artifacts
+remotion-tiktok/build/
+dist/
+build/
+
+

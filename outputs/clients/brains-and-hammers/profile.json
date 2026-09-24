@@ -1,0 +1,38 @@
+{
+  "company_name": "Brains & Hammers",
+  "slug": "brains-and-hammers",
+  "domain": "brainsandhammers.com",
+  "industry": "Large-Scale Community Real Estate Development & Infrastructure",
+  "location": {
+    "city": "Abuja",
+    "state": "FCT",
+    "country": "Nigeria",
+    "headquarters": "Plot 1083, Joseph Gomwalk Street, Gudu District, Abuja"
+  },
+  "contact": {
+    "phone": "+234 803 903 0000",
+    "email": "info@brainsandhammers.com",
+    "sales_email": "sales@brainsandhammers.com"
+  },
+  "leadership": {
+    "chairman": "Adebola Sheidu",
+    "md": "Muktari Hashim",
+    "target_title": "Head of Sales, Marketing & Operations"
+  },
+  "scale": {
+    "employee_headcount": "100-250+",
+    "estimated_annual_turnover": "$25,000,000 - $45,000,000 USD (NGN 40B - 70B)"
+  },
+  "technographics": {
+    "cms": "WordPress / Custom PHP",
+    "analytics": "Google Analytics, Google Tag Manager",
+    "crm": "Salesforce / Custom ERP (partially connected)",
+    "communications": "Zendesk / Centralized WhatsApp & Call Center",
+    "hosting": "Dedicated Cloud Hosting"
+  },
+  "market_position": {
+    "tier": "Tier 1 - Mega-Scale Community Developer",
+    "reputation": "4.3 rating on Google Maps (412+ reviews)",
+    "competitors": ["Cosgrove Investment Limited", "Urban Shelter Limited", "Bilaad Realty"]
+  }
+}

@@ -1,0 +1,5 @@
+agents:
+  - antigravity
+skills:
+  vercel-labs/skills:
+    - find-skills

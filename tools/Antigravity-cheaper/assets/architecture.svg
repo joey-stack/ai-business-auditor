@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 620" width="1120" height="620">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#1e293b"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#047857"/>
+    </marker>
+    <style>
+      .t-hdr { font-family: ui-monospace, SFMono-Regular, monospace; font-size: 26px; font-weight: 800; fill: #0f172a; }
+      .t-hdr-sub { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 16px; font-weight: 500; fill: #475569; }
+      .c-title { font-family: ui-monospace, monospace; font-size: 19px; font-weight: 800; }
+      .c-body { font-family: -apple-system, sans-serif; font-size: 15px; font-weight: 500; fill: #334155; }
+      .c-cmd { font-family: ui-monospace, monospace; font-size: 14px; font-weight: 700; }
+      .c-wire { stroke: #1e293b; stroke-width: 2.5; fill: none; stroke-linecap: round; }
+      .c-wire-green { stroke: #047857; stroke-width: 3.5; fill: none; stroke-linecap: round; }
+    </style>
+  </defs>
+
+  <!-- Canvas Container -->
+  <rect x="8" y="8" width="1104" height="604" rx="16" fill="#ffffff" stroke="#94a3b8" stroke-width="2.5"/>
+
+  <!-- Header -->
+  <text x="36" y="48" class="t-hdr">ARCHITECTURE &amp; DATA FLOW</text>
+  <text x="36" y="74" class="t-hdr-sub">How Antigravity-Cheaper isolates context and preserves the Gemini prompt cache.</text>
+
+  <!-- ==================== COLUMN 1: RAW WORKSPACE ==================== -->
+  <g transform="translate(36, 100)">
+    <rect width="250" height="480" rx="12" fill="#f8fafc" stroke="#64748b" stroke-width="2.5"/>
+    <text x="20" y="38" class="c-title" fill="#0f172a">WORKSPACE INPUT</text>
+    <text x="20" y="62" class="c-body" fill="#64748b">Raw disk files &amp; traces</text>
+    <line x1="20" y1="74" x2="230" y2="74" stroke="#cbd5e1" stroke-width="2"/>
+
+    <!-- Item 1 -->
+    <rect x="16" y="92" width="218" height="96" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+    <text x="28" y="124" class="c-title" fill="#0f172a">Source Code</text>
+    <text x="28" y="148" class="c-body">2,500+ LOC / 20+ files</text>
+    <text x="28" y="170" class="c-cmd" fill="#dc2626">Unbounded: ~150k tok</text>
+
+    <!-- Item 2 -->
+    <rect x="16" y="202" width="218" height="96" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+    <text x="28" y="234" class="c-title" fill="#0f172a">Failure Traces</text>
+    <text x="28" y="258" class="c-body">Terminal crash dumps</text>
+    <text x="28" y="280" class="c-cmd" fill="#dc2626">Noise: up to 35k lines</text>
+
+    <!-- Item 3 -->
+    <rect x="16" y="312" width="218" height="96" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="2"/>
+    <text x="28" y="344" class="c-title" fill="#0f172a">System Rules</text>
+    <text x="28" y="368" class="c-body">Static instructions</text>
+    <text x="28" y="390" class="c-cmd" fill="#2563eb">&gt; 2,048 token prefix</text>
+
+    <text x="22" y="445" class="c-cmd" fill="#b91c1c">Without filter: O(N²) cost</text>
+  </g>
+
+  <!-- Arrows Col 1 -> Col 2 -->
+  <path d="M 286 240 L 330 162" class="c-wire" marker-end="url(#arr)"/>
+  <path d="M 286 270 L 330 272" class="c-wire" marker-end="url(#arr)"/>
+  <path d="M 286 310 L 330 382" class="c-wire" marker-end="url(#arr)"/>
+  <path d="M 286 450 L 330 492" class="c-wire" marker-end="url(#arr)"/>
+
+  <!-- ==================== COLUMN 2: FILTERS ==================== -->
+  <g transform="translate(340, 100)">
+    <!-- Filter 1 -->
+    <rect x="0" y="8" width="370" height="100" rx="10" fill="#ffffff" stroke="#2563eb" stroke-width="2.5"/>
+    <text x="18" y="38" class="c-title" fill="#1d4ed8">1. AST Skeletonizer (ast.py)</text>
+    <text x="18" y="64" class="c-body">Strips function bodies with '...' preserving types</text>
+    <text x="18" y="88" class="c-cmd" fill="#2563eb">&lt; 50 tokens per file skeleton</text>
+
+    <!-- Filter 2 -->
+    <rect x="0" y="118" width="370" height="100" rx="10" fill="#ffffff" stroke="#2563eb" stroke-width="2.5"/>
+    <text x="18" y="148" class="c-title" fill="#1d4ed8">2. PageRank Map (repomap.py)</text>
+    <text x="18" y="174" class="c-body">Symbol reference graph centrality</text>
+    <text x="18" y="198" class="c-cmd" fill="#2563eb">&lt; 1,200 token budget symbol map</text>
+
+    <!-- Filter 3 -->
+    <rect x="0" y="228" width="370" height="100" rx="10" fill="#ffffff" stroke="#2563eb" stroke-width="2.5"/>
+    <text x="18" y="258" class="c-title" fill="#1d4ed8">3. Bounded Slicer (pack.py)</text>
+    <text x="18" y="284" class="c-body">Packs exact error frame + 5 context lines</text>
+    <text x="18" y="308" class="c-cmd" fill="#2563eb">-14.7% input noise chars ingested</text>
+
+    <!-- Filter 4 -->
+    <rect x="0" y="338" width="370" height="100" rx="10" fill="#ffffff" stroke="#2563eb" stroke-width="2.5"/>
+    <text x="18" y="368" class="c-title" fill="#1d4ed8">4. Prefix Lock (prefix_lock.py)</text>
+    <text x="18" y="394" class="c-body">Merkle SHA-256 byte-identical prompt validation</text>
+    <text x="18" y="418" class="c-cmd" fill="#2563eb">&gt; 85% Gemini context cache hit rate</text>
+  </g>
+
+  <!-- Arrows Col 2 -> Col 3 -->
+  <path d="M 710 162 L 755 260" class="c-wire" marker-end="url(#arr)"/>
+  <path d="M 710 272 L 755 285" class="c-wire" marker-end="url(#arr)"/>
+  <path d="M 710 382 L 755 310" class="c-wire" marker-end="url(#arr)"/>
+  <path d="M 710 418 L 755 330" class="c-wire" marker-end="url(#arr)"/>
+
+  <!-- ==================== COLUMN 3: FASTMCP & AGENT ==================== -->
+  <g transform="translate(765, 120)">
+    <!-- FastMCP Server -->
+    <rect width="180" height="240" rx="12" fill="#f0fdf4" stroke="#059669" stroke-width="2.5"/>
+    <text x="16" y="36" class="c-title" fill="#047857">FastMCP Server</text>
+    <text x="16" y="58" class="c-cmd" fill="#059669">agy_mcp_server.py</text>
+    <line x1="16" y1="70" x2="164" y2="70" stroke="#a7f3d0" stroke-width="2"/>
+
+    <text x="16" y="100" class="c-cmd" fill="#065f46">• get_repo_map</text>
+    <text x="16" y="128" class="c-cmd" fill="#065f46">• get_skeleton</text>
+    <text x="16" y="156" class="c-cmd" fill="#065f46">• get_slice</text>
+    <text x="16" y="184" class="c-cmd" fill="#065f46">• get_subgraph</text>
+
+    <rect x="14" y="196" width="152" height="32" rx="6" fill="#d1fae5"/>
+    <text x="24" y="218" class="c-cmd" fill="#047857">stdio JSON-RPC</text>
+  </g>
+
+  <!-- Arrow Col 3 -> Col 4 -->
+  <path d="M 945 240 L 980 240" class="c-wire-green" marker-end="url(#arr-green)"/>
+
+  <!-- Col 4: Agent Results Card -->
+  <g transform="translate(988, 110)">
+    <rect width="105" height="260" rx="12" fill="#fefce8" stroke="#ca8a04" stroke-width="2.5"/>
+    <text x="12" y="36" class="c-title" fill="#854d0e">AGENT</text>
+    <text x="12" y="58" class="c-cmd" fill="#a16207">Gemini</text>
+    <line x1="12" y1="70" x2="93" y2="70" stroke="#fef08a" stroke-width="2"/>
+
+    <text x="12" y="96" class="c-body" font-weight="700" fill="#713f12">Protected</text>
+    <text x="12" y="116" class="c-body" font-weight="700" fill="#713f12">Context</text>
+
+    <!-- Stat 1 -->
+    <rect x="8" y="132" width="89" height="52" rx="6" fill="#fef9c3" stroke="#fde047" stroke-width="1.5"/>
+    <text x="12" y="154" class="c-cmd" fill="#854d0e">-17.2%</text>
+    <text x="12" y="172" class="c-cmd" fill="#854d0e">Thinking</text>
+
+    <!-- Stat 2 -->
+    <rect x="8" y="194" width="89" height="52" rx="6" fill="#dcfce7" stroke="#86efac" stroke-width="1.5"/>
+    <text x="12" y="216" class="c-cmd" fill="#15803d">-38.4%</text>
+    <text x="12" y="234" class="c-cmd" fill="#15803d">Cost/Task</text>
+  </g>
+</svg>

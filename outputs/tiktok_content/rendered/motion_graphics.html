@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700;800&display=swap');
+  
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  body {
+    width: 1080px;
+    height: 1920px;
+    background: #06090E;
+    color: #F8FAFC;
+    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Moving ambient gradient orbs in background */
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(140px);
+    opacity: 0.28;
+    pointer-events: none;
+    will-change: transform;
+  }
+  .orb-1 {
+    width: 700px;
+    height: 700px;
+    background: #0284C7;
+    top: -100px;
+    right: -100px;
+    animation: float1 12s ease-in-out infinite alternate;
+  }
+  .orb-2 {
+    width: 650px;
+    height: 650px;
+    background: #F43F5E;
+    bottom: 50px;
+    left: -100px;
+    animation: float2 14s ease-in-out infinite alternate;
+  }
+  @keyframes float1 {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(-80px, 120px) scale(1.15); }
+  }
+  @keyframes float2 {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(100px, -90px) scale(1.1); }
+  }
+
+  /* Real-time Top Progress Bar */
+  .progress-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.08);
+    z-index: 100;
+  }
+  .progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #38BDF8, #818CF8, #F43F5E);
+    box-shadow: 0 0 15px #38BDF8;
+    transition: width 0.1s linear;
+  }
+
+  /* Main Viewport Container */
+  .viewport {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1080px;
+    height: 1920px;
+    padding: 100px 75px 140px 75px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 10;
+  }
+
+  /* Scenes Container */
+  .scene-stage {
+    position: relative;
+    width: 100%;
+    height: 1400px;
+  }
+
+  .scene {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transform: translateY(30px) scale(0.97);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+  }
+  .scene.active {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+
+  /* Badges */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 28px;
+    border-radius: 999px;
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    width: fit-content;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+  }
+  .badge-red {
+    background: rgba(244, 63, 94, 0.15);
+    border: 2px solid rgba(244, 63, 94, 0.6);
+    color: #FB7185;
+    animation: pulseRed 2s infinite;
+  }
+  @keyframes pulseRed {
+    0%, 100% { box-shadow: 0 0 15px rgba(244, 63, 94, 0.3); }
+    50% { box-shadow: 0 0 35px rgba(244, 63, 94, 0.7); }
+  }
+  .badge-blue {
+    background: rgba(14, 165, 233, 0.15);
+    border: 2px solid rgba(56, 189, 248, 0.6);
+    color: #38BDF8;
+  }
+  .badge-green {
+    background: rgba(16, 185, 129, 0.15);
+    border: 2px solid rgba(16, 185, 129, 0.6);
+    color: #34D399;
+  }
+  .badge-amber {
+    background: rgba(245, 158, 11, 0.15);
+    border: 2px solid rgba(245, 158, 11, 0.6);
+    color: #FBBF24;
+  }
+
+  /* Titles */
+  .hero-title {
+    font-size: 68px;
+    font-weight: 900;
+    line-height: 1.15;
+    letter-spacing: -1.5px;
+    color: #FFFFFF;
+    margin-top: 30px;
+  }
+  .hero-title .glow-cyan {
+    background: linear-gradient(90deg, #38BDF8, #818CF8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero-title .glow-red {
+    background: linear-gradient(90deg, #FB7185, #F43F5E);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero-title .glow-green {
+    background: linear-gradient(90deg, #34D399, #10B981);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Glass Cards */
+  .card {
+    background: rgba(15, 23, 42, 0.8);
+    border: 1.5px solid rgba(255, 255, 255, 0.12);
+    border-radius: 32px;
+    padding: 44px;
+    backdrop-filter: blur(25px);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+  }
+
+  /* Kinetic Stamp */
+  .stamp-box {
+    margin-top: 40px;
+    background: rgba(244, 63, 94, 0.12);
+    border: 3px solid #F43F5E;
+    border-radius: 24px;
+    padding: 35px;
+    text-align: center;
+    box-shadow: 0 0 40px rgba(244, 63, 94, 0.25);
+    transform: rotate(-1.5deg);
+    animation: stampSlam 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  @keyframes stampSlam {
+    0% { transform: scale(2) rotate(-15deg); opacity: 0; }
+    100% { transform: scale(1) rotate(-1.5deg); opacity: 1; }
+  }
+
+  /* Floating Subtitle Pill */
+  .subtitle-container {
+    width: 100%;
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: center;
+  }
+  .subtitle-pill {
+    background: rgba(15, 23, 42, 0.92);
+    border: 2px solid rgba(56, 189, 248, 0.5);
+    border-radius: 20px;
+    padding: 18px 36px;
+    font-size: 26px;
+    font-weight: 700;
+    color: #F8FAFC;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(56, 189, 248, 0.2);
+    max-width: 900px;
+    line-height: 1.35;
+    transition: all 0.3s ease;
+  }
+  .subtitle-pill span.highlight {
+    color: #38BDF8;
+    font-weight: 800;
+  }
+
+  /* Footer Attribution */
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1.5px solid rgba(255, 255, 255, 0.1);
+    padding-top: 30px;
+  }
+  .brand-left {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+  }
+  .brand-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0284C7, #4F46E5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26px;
+    font-weight: 900;
+    color: #FFF;
+    border: 2.5px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 0 20px rgba(2, 132, 199, 0.4);
+  }
+  .brand-name {
+    font-size: 28px;
+    font-weight: 800;
+    color: #FFFFFF;
+  }
+  .brand-role {
+    font-size: 19px;
+    color: #94A3B8;
+    font-weight: 600;
+    margin-top: 4px;
+  }
+  .brand-pill {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 10px 22px;
+    border-radius: 12px;
+    font-size: 17px;
+    font-weight: 700;
+    color: #E2E8F0;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Stagger animation items */
+  .item-stagger {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .scene.active .item-stagger:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
+  .scene.active .item-stagger:nth-child(2) { transition-delay: 0.25s; opacity: 1; transform: translateY(0); }
+  .scene.active .item-stagger:nth-child(3) { transition-delay: 0.4s; opacity: 1; transform: translateY(0); }
+  .scene.active .item-stagger:nth-child(4) { transition-delay: 0.55s; opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+  <!-- Top Progress Bar -->
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <!-- Background Orbs -->
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+
+  <!-- Main Viewport -->
+  <div class="viewport">
+    
+    <!-- Dynamic Scenes -->
+    <div class="scene-stage">
+      
+      <!-- SCENE 1: Emergency Test (0 - 9.2s) -->
+      <div class="scene active" id="scene1">
+        <div class="badge badge-red">🚨 REAL-WORLD FIELD TEST</div>
+        <h1 class="hero-title">Water Is Pouring <br><span class="glow-red">Through The Ceiling.</span></h1>
+        
+        <div class="card" style="margin-top: 50px;">
+          <div style="font-size: 22px; color: #94A3B8; font-weight: 600;">Homeowner Crisis at 9:00 PM:</div>
+          <div style="font-size: 38px; color: #FFFFFF; font-weight: 800; margin-top: 10px; line-height: 1.3;">
+            Do you think they fill out your 7-field website contact form?
+          </div>
+          
+          <div class="stamp-box">
+            <div style="font-size: 52px; font-weight: 900; color: #F43F5E; letter-spacing: 2px;">❌ NOT A CHANCE</div>
+            <div style="font-size: 24px; color: #FDA4AF; margin-top: 10px; font-weight: 600;">12-hour email replies forfeit the $3,500 job.</div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top: 36px; background: rgba(14, 165, 233, 0.08); border-color: rgba(56, 189, 248, 0.35);">
+          <div style="font-size: 20px; font-weight: 800; color: #38BDF8; letter-spacing: 1.5px; text-transform: uppercase;">What actually happens:</div>
+          <div style="font-size: 34px; font-weight: 800; color: #F8FAFC; margin-top: 10px;">
+            They pull out their phone and search Google Maps for the first 3 contractors.
+          </div>
+        </div>
+      </div>
+
+      <!-- SCENE 2: Google Maps Race (9.2 - 16.5s) -->
+      <div class="scene" id="scene2">
+        <div class="badge badge-blue">🗺️ GOOGLE MAPS 3-PACK RACE</div>
+        <h1 class="hero-title">They Dial The Top <br><span class="glow-cyan">3 Contractors In Line.</span></h1>
+        
+        <div style="display: flex; flex-direction: column; gap: 24px; margin-top: 45px;">
+          <div class="card item-stagger" style="padding: 34px 40px; border-left: 8px solid #F43F5E; display: flex; align-items: center; justify-content: space-between;">
+            <div>
+              <div style="font-size: 32px; font-weight: 800; color: #FFF;">Contractor #1</div>
+              <div style="font-size: 22px; color: #FB7185; font-weight: 600; margin-top: 6px;">Rings out to voicemail (Unassisted)</div>
+            </div>
+            <div style="font-size: 38px;">❌</div>
+          </div>
+
+          <div class="card item-stagger" style="padding: 34px 40px; border-left: 8px solid #F43F5E; display: flex; align-items: center; justify-content: space-between;">
+            <div>
+              <div style="font-size: 32px; font-weight: 800; color: #FFF;">Contractor #2</div>
+              <div style="font-size: 22px; color: #FB7185; font-weight: 600; margin-top: 6px;">Answering machine: "Closed until 8 AM"</div>
+            </div>
+            <div style="font-size: 38px;">❌</div>
+          </div>
+
+          <div class="card item-stagger" style="padding: 38px 40px; border-left: 8px solid #10B981; background: rgba(16, 185, 129, 0.12); border-color: rgba(16, 185, 129, 0.5); display: flex; align-items: center; justify-content: space-between; box-shadow: 0 0 30px rgba(16, 185, 129, 0.2);">
+            <div>
+              <div style="display: flex; align-items: center; gap: 14px;">
+                <div style="font-size: 34px; font-weight: 900; color: #FFF;">Contractor #3</div>
+                <span style="background: #10B981; color: #FFF; font-size: 15px; font-weight: 800; padding: 4px 14px; border-radius: 999px;">AUTOMATED FLEET</span>
+              </div>
+              <div style="font-size: 23px; color: #34D399; font-weight: 700; margin-top: 8px;">10-Second Automated SMS Triage Triggered</div>
+            </div>
+            <div style="font-size: 42px;">⚡</div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top: 36px; text-align: center; background: rgba(245, 158, 11, 0.1); border-color: rgba(245, 158, 11, 0.4);">
+          <div style="font-size: 20px; font-weight: 800; color: #FBBF24; letter-spacing: 1.5px; text-transform: uppercase;">The Operational Law:</div>
+          <div style="font-size: 34px; font-weight: 800; color: #FFF; margin-top: 8px;">
+            Speed to lead isn't marketing—it's architecture.
+          </div>
+        </div>
+      </div>
+
+      <!-- SCENE 3: Speed-to-Lead Law (16.5 - 26.5s) -->
+      <div class="scene" id="scene3">
+        <div class="badge badge-green">⏱️ SPEED-TO-LEAD LAW</div>
+        <h1 class="hero-title">Whoever Answers First <br><span class="glow-green">Wins The $3,500 Job.</span></h1>
+        
+        <div class="card" style="margin-top: 45px; text-align: center; border-color: rgba(16, 185, 129, 0.4); box-shadow: 0 0 35px rgba(16, 185, 129, 0.15);">
+          <div style="font-size: 20px; font-weight: 800; color: #94A3B8; letter-spacing: 2px;">AVERAGE EMERGENCY REPLACEMENT TICKET</div>
+          <div id="counterTicket" style="font-size: 110px; font-weight: 900; color: #34D399; font-family: 'JetBrains Mono', monospace; line-height: 1.1; margin: 15px 0;">$3,500+</div>
+          <div style="font-size: 24px; color: #CBD5E1; font-weight: 600;">Main line burst, water heater failure, sewer backup</div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 32px;">
+          <div class="card" style="padding: 34px; background: rgba(244, 63, 94, 0.08); border-color: rgba(244, 63, 94, 0.35);">
+            <div style="font-size: 22px; font-weight: 800; color: #FB7185;">Manual Contractor</div>
+            <div style="font-size: 19px; color: #FDA4AF; margin-top: 14px; line-height: 1.6;">
+              • Misses night call<br>
+              • Listens at 8:00 AM<br>
+              • "Already hired."<br>
+            </div>
+            <div style="margin-top: 20px; font-size: 26px; font-weight: 900; color: #F43F5E;">$0 REVENUE</div>
+          </div>
+
+          <div class="card" style="padding: 34px; background: rgba(16, 185, 129, 0.08); border-color: rgba(16, 185, 129, 0.35);">
+            <div style="font-size: 22px; font-weight: 800; color: #34D399;">Automated Fleet</div>
+            <div style="font-size: 19px; color: #86EFAC; margin-top: 14px; line-height: 1.6;">
+              • 10-Second SMS<br>
+              • Triage shutoff guide<br>
+              • On-call dispatched<br>
+            </div>
+            <div style="margin-top: 20px; font-size: 26px; font-weight: 900; color: #10B981;">+$3,500 WON</div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top: 30px; text-align: center; padding: 24px;">
+          <div style="font-size: 22px; font-weight: 700; color: #38BDF8;">Harvard Business Review: 78% of customers hire the first responder.</div>
+        </div>
+      </div>
+
+      <!-- SCENE 4: Audit Revenue Model (26.5 - 38.5s) -->
+      <div class="scene" id="scene4">
+        <div class="badge badge-amber">📊 INSTITUTIONAL FLEET AUDIT</div>
+        <h1 class="hero-title">After-Hours Abandonment <br><span class="glow-red">Leaks $14,500 / Month.</span></h1>
+        
+        <div class="card" style="margin-top: 45px; border-color: rgba(239, 68, 68, 0.45); box-shadow: 0 0 35px rgba(239, 68, 68, 0.2);">
+          <div style="font-size: 20px; font-weight: 800; color: #94A3B8; letter-spacing: 2px;">MEASURED ANNUAL REVENUE FORFEITED</div>
+          <div id="counterLoss" style="font-size: 96px; font-weight: 900; color: #EF4444; font-family: 'JetBrains Mono', monospace; line-height: 1.1; margin: 15px 0;">-$174,000</div>
+          <div style="height: 1.5px; background: rgba(255, 255, 255, 0.1); margin: 24px 0;"></div>
+          <div style="font-size: 22px; color: #E2E8F0; font-weight: 700;">Grounded in Empirical Trade Fleet Telemetry:</div>
+          <div style="font-size: 20px; color: #94A3B8; margin-top: 12px; line-height: 1.7;">
+            • 15-Van Service Fleet ($3.8M Annual Run Rate)<br>
+            • 14 Unassisted After-Hours Calls Abandoned Monthly<br>
+            • 35% Conversion Loss to Local Google Maps Competitors
+          </div>
+        </div>
+
+        <div class="card" style="margin-top: 36px; background: rgba(239, 68, 68, 0.08); border-color: rgba(239, 68, 68, 0.3); text-align: center;">
+          <div style="font-size: 32px; font-weight: 900; color: #FFFFFF;">You Don't Need More Marketing Leads.</div>
+          <div style="font-size: 24px; font-weight: 600; color: #38BDF8; margin-top: 10px;">You need to stop leaking the high-intent calls you already paid for.</div>
+        </div>
+      </div>
+
+      <!-- SCENE 5: The 10-Second Fix (38.5 - 48.8s) -->
+      <div class="scene" id="scene5">
+        <div class="badge badge-blue">⚡ THE 10-SECOND FIX</div>
+        <h1 class="hero-title">You Don't Need A <br><span class="glow-cyan">$4,000/Mo Call Center.</span></h1>
+        
+        <div style="display: flex; flex-direction: column; gap: 20px; margin-top: 40px;">
+          <div class="card item-stagger" style="padding: 28px 36px; display: flex; align-items: center; gap: 24px; border-left: 6px solid #38BDF8;">
+            <div style="background: #0284C7; color: #FFF; font-size: 22px; font-weight: 800; padding: 10px 18px; border-radius: 12px;">STEP 1</div>
+            <div style="font-size: 25px; font-weight: 700; color: #FFF;">Instant SMS acknowledgment in under 10 seconds</div>
+          </div>
+
+          <div class="card item-stagger" style="padding: 28px 36px; display: flex; align-items: center; gap: 24px; border-left: 6px solid #818CF8;">
+            <div style="background: #4F46E5; color: #FFF; font-size: 22px; font-weight: 800; padding: 10px 18px; border-radius: 12px;">STEP 2</div>
+            <div style="font-size: 25px; font-weight: 700; color: #FFF;">Emergency triage & water shutoff video sent to caller</div>
+          </div>
+
+          <div class="card item-stagger" style="padding: 28px 36px; display: flex; align-items: center; gap: 24px; border-left: 6px solid #10B981;">
+            <div style="background: #166534; color: #FFF; font-size: 22px; font-weight: 800; padding: 10px 18px; border-radius: 12px;">STEP 3</div>
+            <div style="font-size: 25px; font-weight: 700; color: #FFF;">On-call technician priority dispatch alert in CRM</div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top: 36px; background: linear-gradient(135deg, rgba(2, 132, 199, 0.4), rgba(79, 70, 229, 0.4)); border: 2.5px solid #38BDF8; text-align: center; padding: 45px; box-shadow: 0 0 45px rgba(2, 132, 199, 0.35);">
+          <div style="font-size: 22px; font-weight: 800; color: #BAE6FD; letter-spacing: 2px; text-transform: uppercase;">Ready To Inspect Your Fleet?</div>
+          <div style="font-size: 38px; font-weight: 900; color: #FFFFFF; margin-top: 10px;">Book a 15-Minute Diagnostic Walkthrough</div>
+          <div style="margin-top: 25px; background: #FFFFFF; color: #0284C7; font-size: 25px; font-weight: 800; padding: 20px 40px; border-radius: 16px; display: inline-block; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);">
+            👉 Tap The Link In My Bio
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Floating Subtitle Pill -->
+    <div class="subtitle-container">
+      <div class="subtitle-pill" id="subtitlePill">
+        "If a homeowner has water pouring through their ceiling at 9:00 PM..."
+      </div>
+    </div>
+
+    <!-- Footer Attribution -->
+    <div class="footer-brand">
+      <div class="brand-left">
+        <div class="brand-avatar">JA</div>
+        <div>
+          <div class="brand-name">Joel Adawah Sani</div>
+          <div class="brand-role">Principal Business Systems Consultant</div>
+        </div>
+      </div>
+      <div class="brand-pill">SYSTEMS AUDIT</div>
+    </div>
+
+  </div>
+
+  <script>
+    // Subtitles and Scenes Timeline
+    const timeline = [
+      { start: 0.0, end: 7.8, scene: 1, text: "If a homeowner has water pouring through their ceiling at 9:00 PM, do you really think they fill out your 7-field form?" },
+      { start: 7.8, end: 9.2, scene: 1, text: "Not a chance." },
+      { start: 9.2, end: 16.5, scene: 2, text: "They pull out their phone, search 'emergency plumber near me', and dial the first 3 contractors on Google Maps." },
+      { start: 16.5, end: 26.5, scene: 3, text: "Whoever answers first, or triggers an automated text within 60 seconds, wins the $3,500 emergency job. Every single time." },
+      { start: 26.5, end: 38.5, scene: 4, text: "In our systems audits of $2M to $5M fleets, we found businesses leaking over $14,500 every single month from call abandonment." },
+      { start: 38.5, end: 44.5, scene: 5, text: "You don't need a $4,000-a-month call center. You just need a 10-second automated dispatch triage." },
+      { start: 44.5, end: 48.8, scene: 5, text: "Tap the link in my bio to see the exact workflow." }
+    ];
+
+    const totalDuration = 48.8;
+    const progressBar = document.getElementById('progressBar');
+    const subtitlePill = document.getElementById('subtitlePill');
+    const scenes = [
+      document.getElementById('scene1'),
+      document.getElementById('scene2'),
+      document.getElementById('scene3'),
+      document.getElementById('scene4'),
+      document.getElementById('scene5')
+    ];
+
+    let currentSceneIndex = 1;
+
+    // Time update function called by animation loop or external controller
+    window.setPlaybackTime = function(t) {
+      // 1. Update Progress Bar
+      const pct = Math.min(100, (t / totalDuration) * 100);
+      progressBar.style.width = pct + '%';
+
+      // 2. Find active subtitle & scene
+      const activeEntry = timeline.find(item => t >= item.start && t < item.end);
+      if (activeEntry) {
+        subtitlePill.innerText = activeEntry.text;
+        
+        if (activeEntry.scene !== currentSceneIndex) {
+          scenes.forEach((s, idx) => {
+            if (idx + 1 === activeEntry.scene) {
+              s.classList.add('active');
+            } else {
+              s.classList.remove('active');
+            }
+          });
+          currentSceneIndex = activeEntry.scene;
+        }
+      }
+    };
+  
+    // Autostart real-time motion loop
+    const startTime = performance.now();
+    function animateLoop() {
+      const elapsed = (performance.now() - startTime) / 1000.0;
+      window.setPlaybackTime(elapsed);
+      if (elapsed < totalDuration + 2) {
+        requestAnimationFrame(animateLoop);
+      }
+    }
+    requestAnimationFrame(animateLoop);
+  </script>
+</body>
+</html>

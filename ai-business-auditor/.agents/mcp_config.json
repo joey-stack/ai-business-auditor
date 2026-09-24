@@ -1,0 +1,62 @@
+{
+  "mcpServers": {
+    "entia": {
+      "serverUrl": "https://mcp.entia.systems/mcp",
+      "headers": {
+        "x-entia-key": "${ENTIA_API_KEY}"
+      }
+    },
+    "company-firmographic-enricher": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@mambalabsdev/mcp-company-firmographic-enricher"
+      ],
+      "env": {
+        "APIFY_TOKEN": "${APIFY_TOKEN}"
+      }
+    },
+    "opencorporates": {
+      "serverUrl": "https://mcp.pipeworx.io/opencorporates",
+      "headers": {
+        "Authorization": "Bearer ${OPENCORPORATES_API_KEY}"
+      }
+    },
+    "google-search-console": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "-p",
+        "google-search-console-mcp-server",
+        "google-search-console-mcp"
+      ],
+      "env": {
+        "GOOGLE_CLIENT_ID": "${GOOGLE_CLIENT_ID}",
+        "GOOGLE_CLIENT_SECRET": "${GOOGLE_CLIENT_SECRET}",
+        "GOOGLE_REFRESH_TOKEN": "${GOOGLE_REFRESH_TOKEN}"
+      }
+    },
+    "google-places": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "google-maps-places-mcp"
+      ],
+      "env": {
+        "GOOGLE_CLIENT_ID": "${GOOGLE_CLIENT_ID}",
+        "GOOGLE_CLIENT_SECRET": "${GOOGLE_CLIENT_SECRET}",
+        "GOOGLE_PLACES_API_KEY": "${GOOGLE_PLACES_API_KEY}"
+      }
+    },
+    "fetchserp": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "fetchserp-mcp-server"
+      ],
+      "env": {
+        "FETCHSERP_API_TOKEN": "${FETCHSERP_API_TOKEN}"
+      }
+    }
+  }
+}

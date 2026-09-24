@@ -1,0 +1,37 @@
+{
+  "company_name": "Cosgrove Investment Limited",
+  "slug": "cosgrove-investment-limited",
+  "domain": "cosgroveafrica.com",
+  "industry": "Luxury Real Estate & Smart Home Property Development",
+  "location": {
+    "city": "Abuja",
+    "state": "FCT",
+    "country": "Nigeria",
+    "headquarters": "4th Floor, Mukhtar El-Yakub Place, Zakariya Maimalari Street, CBD, Abuja"
+  },
+  "contact": {
+    "phone": "+234 906 000 1201",
+    "email": "info@cosgroveafrica.com",
+    "sales_email": "sales@cosgroveafrica.com"
+  },
+  "leadership": {
+    "ceo": "Umar Abdullahi",
+    "target_title": "Managing Director / Head of Sales & Growth"
+  },
+  "scale": {
+    "employee_headcount": "35-50",
+    "estimated_annual_turnover": "$8,000,000 - $15,000,000 USD (NGN 12B - 24B)"
+  },
+  "technographics": {
+    "cms": "WordPress",
+    "analytics": "Google Analytics 4, Meta Pixel",
+    "crm": "HubSpot / Zoho CRM (fragmented)",
+    "communications": "WhatsApp Business Webhooks, Static PDF Brochure Downloads",
+    "hosting": "Cloudflare CDN / Apache"
+  },
+  "market_position": {
+    "tier": "Tier 1 - Luxury Smart Home Developer",
+    "reputation": "4.6 rating on Google Maps (118+ reviews)",
+    "competitors": ["Brains & Hammers", "Bilaad Realty", "Urban Shelter Limited"]
+  }
+}

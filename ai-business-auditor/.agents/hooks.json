@@ -1,0 +1,39 @@
+{
+  "paywall-guard": {
+    "PreToolUse": [
+      {
+        "matcher": "read_url_content|web_search|url_context",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python .agents/hooks/scripts/check_paywall.py",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  },
+  "enrichment-logger": {
+    "PostToolUse": [
+      {
+        "matcher": "invoke_mcp_tool|entity_lookup|enrich_company_firmographics|get_full_dossier|search_entities",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python .agents/hooks/scripts/log_enrichment.py",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  },
+  "reasoning-reminder": {
+    "PreInvocation": [
+      {
+        "type": "command",
+        "command": "python .agents/hooks/scripts/inject_scaffold_reminder.py",
+        "timeout": 5
+      }
+    ]
+  }
+}

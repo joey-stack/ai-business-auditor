@@ -1,0 +1,11 @@
+file 'C:/Users/user/Desktop/AI BUSINESS AUDITOR/outputs/tiktok_content/rendered/scene_1.png'
+duration 8.0
+file 'C:/Users/user/Desktop/AI BUSINESS AUDITOR/outputs/tiktok_content/rendered/scene_2.png'
+duration 8.5
+file 'C:/Users/user/Desktop/AI BUSINESS AUDITOR/outputs/tiktok_content/rendered/scene_3.png'
+duration 9.0
+file 'C:/Users/user/Desktop/AI BUSINESS AUDITOR/outputs/tiktok_content/rendered/scene_4.png'
+duration 11.5
+file 'C:/Users/user/Desktop/AI BUSINESS AUDITOR/outputs/tiktok_content/rendered/scene_5.png'
+duration 9.5
+file 'C:/Users/user/Desktop/AI BUSINESS AUDITOR/outputs/tiktok_content/rendered/scene_5.png'

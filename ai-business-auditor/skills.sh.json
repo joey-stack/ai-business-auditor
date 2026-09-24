@@ -1,0 +1,10 @@
+{
+  "title": "AI Business Auditor",
+  "description": "A multi-agent system that audits any business from a URL, scoring four operational pillars and producing a formatted report with roadmaps.",
+  "skills": [
+    "company-research",
+    "business-audit",
+    "report-export",
+    "prospect-finder"
+  ]
+}

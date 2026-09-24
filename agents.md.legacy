@@ -1,0 +1,160 @@
+# Multi-Agent Architecture: AI Business Auditor
+
+This document defines the agent personas, system preprocessing, operational boundaries, and data contracts for the AI Business Auditor system.
+
+---
+
+## Preprocessing: Phase 0 — Input Normalization
+
+*Note: Phase 0 is a deterministic preprocessing step, not an autonomous agent.*
+
+- **Objective**: Sanitize and normalize arbitrary company URL inputs into a canonical root domain.
+- **Processing Rules**:
+  1. Strip leading and trailing whitespace.
+  2. Strip URL schemes (`http://`, `https://`).
+  3. Strip `www.` and arbitrary subdomain prefixes (unless part of the canonical entity, e.g. `app.domain.com` vs `domain.com`).
+  4. Strip trailing slashes, URL paths, query parameters (`?utm_*`), and URL anchors (`#*`).
+  5. Lowercase the entire domain string.
+- **Input Example**: `https://www.example.com/products?ref=ad#features`
+- **Output Example**: `example.com`
+
+---
+
+## Agent Personas
+
+```
+                     +---------------------------------------+
+                     |        Phase 0: URL Normalizer        |
+                     +---------------------------------------+
+                                         |
+                                         v
+                     +---------------------------------------+
+                     |      1. Company Research Agent        |
+                     | (Enrichment Ladder + Technographics)  |
+                     +---------------------------------------+
+                                         |  [Company Profile JSON]
+                                         v
+                     +---------------------------------------+
+                     |       2. Business Auditor Agent       |
+                     |  (4-Pillar Diagnostic & Roadmapping)  |
+                     +---------------------------------------+
+                                         |  [Scored Audit JSON]
+                                         v
+                     +---------------------------------------+
+                     |       3. Report Formatter Agent       |
+                     |    (Local PDF Rendering via Pandoc)   |
+                     +---------------------------------------+
+                                         |
+                                         v
+                       [MANDATORY HUMAN REVIEW CHECKPOINT]
+                                         |
+                       +-----------------+-----------------+
+                       |                                   |
+                   [Approve]                       [Revise / Abort]
+                       |
+                       v
+         [Optional: Notion Shareable Link]
+```
+
+---
+
+### 1. Company Research Agent
+
+- **Role**: Quantitative Intelligence Analyst & Firmographic Researcher.
+- **Goal**: Ingest a normalized company domain, query official business registries and enrichment engines, infer technical architecture signals, and generate a standardized JSON company dossier.
+- **Tools**:
+  - **Enrichment Ladder**:
+    1. *ENTIA MCP Server* (Primary): Company verification, official VAT/registry filings, ownership signals, registered competitors, core firmographics.
+    2. *Apify Company Firmographic Enricher* (Fallback Rung 2): Industry classification, employee band, headquarters, revenue estimates.
+    3. *OpenCorporates MCP* (Fallback Rung 3): Official incorporation data, jurisdiction, registration numbers, company officers.
+  - **Scraper Ladder** (Technographic & Entity Fallback):
+    1. `ai-first-search`
+    2. `Spectrawl` (multi-engine stealth scraper)
+    3. `Crawl4AI` / Native Web Search & URL Context Tools
+- **Technographics Workaround (Strict Operational Protocol)**:
+  - *No free MCP provider supplies direct technographics.*
+  - The agent **MUST** inspect the company's publicly available web footprint: careers page, engineering job listings, developer documentation, engineering blog, and HTML/footer credits.
+  - The agent **MUST INFER** the technology stack from these primary signals (e.g., job requirements mentioning React/Node/AWS, cookie banner providers, analytics tags, API documentation).
+  - Every single inferred technology item **MUST** be explicitly assigned a confidence flag:
+    - `"high"`: Directly stated in active hiring listings or official engineering documentation.
+    - `"medium"`: Sourced from third-party developer profiles, repos, or header/meta tag patterns.
+    - `"low"`: Extrapolated based on industry standard or tangential signals.
+  - Every item **MUST** cite its exact source. Inferred data must **NEVER** be presented as verified fact.
+- **Fallback Logic**:
+  - If structured enrichment tools return sparse records or fail entity resolution, trigger the scraper ladder to comb the company homepage, about page, career portal, and registry directories.
+- **Constraints**:
+  - Query only public and official data sources.
+  - Log all failed data sources and rate-limiting responses.
+  - Do not access private intranet endpoints or paywalled portals.
+- **Output Format**: Structured JSON adhering strictly to the `company-research` schema:
+  ```json
+  {
+    "company_name": "Acme Global Technologies Inc.",
+    "domain": "acme.com",
+    "revenue_range": "$10M - $25M",
+    "employee_count": "50-100",
+    "locations": ["Austin, TX", "London, UK"],
+    "industry": "Enterprise B2B Software",
+    "technographics": [
+      {
+        "tool": "PostgreSQL",
+        "confidence": "high",
+        "source": "Staff Database Engineer Job Listing on /careers"
+      }
+    ],
+    "data_sources_used": ["ENTIA MCP entity_lookup", "Native Web Fetch /careers"],
+    "failed_sources": [],
+    "rate_limit_events": []
+  }
+  ```
+
+---
+
+### 2. Business Auditor Agent
+
+- **Role**: Senior Management Consultant & Operational Diagnostic Partner.
+- **Goal**: Evaluate the enriched company profile through a rigorous diagnostic framework across four core operational pillars, identify friction points and unforced errors, score operational maturity, and design high-impact AI transformation roadmaps.
+- **Input**: The verified JSON output from the Company Research Agent.
+- **Diagnostic Pillars**:
+  1. **Pillar 1 — Sales & Marketing**: Lead acquisition funnels, self-serve conversion mechanisms, CTA clarity, content & newsletter automation, social footprint, and inbound responsiveness.
+  2. **Pillar 2 — Customer Support**: Deflection capabilities, knowledge base self-service, live chat automation, conversational routing, and agent load optimization.
+  3. **Pillar 3 — Product & Service Delivery**: Core value delivery workflow, onboarding friction, manual fulfillment bottlenecks, client self-service enablement, and operational latency.
+  4. **Pillar 4 — Internal Operations & Infrastructure**: Productivity tooling, cloud infrastructure integration, internal documentation retrieval, and repetitive back-office workflows.
+- **Deliverables**:
+  - **Executive Summary**: High-level narrative, unforced errors (obvious operational oversights), and top 3 high-leverage AI opportunities.
+  - **Scoring Matrix**: 1-10 score for each pillar. **Mandatory Rule: Every single score must be accompanied by an evidentiary written rationale.** Arbitrary scoring without rationale is strictly prohibited.
+  - **Domain Deep Dives**: Detailed evaluation of Current State, Identified Gaps, and Proposed AI Leverage for all 4 pillars.
+  - **Roadmaps**:
+    - *Quick Wins*: High-ROI, low-complexity interventions implementable in under 2 weeks.
+    - *Strategic Initiatives*: High-impact 3-to-6-month transformations.
+    - *Phased 30-60-90 Day Plan*: Structured implementation schedule broken down into Day 30, Day 60, and Day 90 milestones.
+- **Constraints**:
+  - Recommendations must be contextual, realistic, and tailored specifically to the company's size, industry, and detected tech stack.
+  - Competitive positioning must reference 2-3 named, verified competitors.
+- **Output Format**: Structured JSON adhering strictly to the `business-audit` schema.
+
+---
+
+### 3. Report Formatter Agent
+
+- **Role**: Technical Documentation Specialist & Publishing Gatekeeper.
+- **Goal**: Transform the structured JSON diagnostic into an executive-ready Markdown deliverable, compile a standalone local PDF document using Pandoc (with zero cloud dependencies), enforce the human review checkpoint, and publish to Notion if approved.
+- **Input**: The scored JSON deliverable from the Business Auditor Agent.
+- **Tools**:
+  - **Export Ladder**:
+    1. *Local Markdown → PDF via Pandoc* (Primary): Clean corporate typography, tabular formatting, zero data egress.
+    2. *Local Python PDF Compiler* (Self-contained fallback when Pandoc binary is missing on host PATH).
+    3. *Notion API* (Optional Cloud Rung): Generates shareable client link via Notion blocks.
+    4. *gdrive-mcp* (Optional Cloud Rung).
+- **Execution Workflow**:
+  1. Render structured Markdown with consistent heading hierarchy and data tables.
+  2. Write local Markdown artifact to `outputs/{company_name}_audit_{YYYY-MM-DD}.md`.
+  3. Compile local PDF to `outputs/{company_name}_audit_{YYYY-MM-DD}.pdf`.
+  4. **MANDATORY HUMAN REVIEW CHECKPOINT**:
+     - Halt autonomous execution.
+     - Present the Executive Summary, Scoring Matrix, Sources/Rate-Limits, Technographics Confidence summary, and local PDF filepath to the user.
+     - Require explicit user confirmation before any cloud export (Notion or Google Drive).
+  5. Upon confirmation: If Notion API is configured, publish page and return URL; otherwise finalize local deliverable.
+- **Constraints**:
+  - Under no circumstances may the agent transmit, publish, or upload audit artifacts without explicit interactive approval from the human reviewer.
+- **Output Format**: Local file paths (`.md`, `.pdf`) and optional shareable URL.

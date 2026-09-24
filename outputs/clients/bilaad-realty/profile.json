@@ -1,0 +1,37 @@
+{
+  "company_name": "Bilaad Realty",
+  "slug": "bilaad-realty",
+  "domain": "bilaadnigeria.com",
+  "industry": "Sustainable Eco-Luxury Real Estate Development",
+  "location": {
+    "city": "Abuja",
+    "state": "FCT",
+    "country": "Nigeria",
+    "headquarters": "1st Floor, Rivers House, Plot 83, Ralph Shodeinde Street, CBD, Abuja"
+  },
+  "contact": {
+    "phone": "+234 814 990 6589",
+    "email": "info@bilaadnigeria.com",
+    "sales_email": "sales@bilaadnigeria.com"
+  },
+  "leadership": {
+    "ceo": "Aliyu Aliyu",
+    "target_title": "Chief Executive Officer / Chief Commercial Officer"
+  },
+  "scale": {
+    "employee_headcount": "45-75",
+    "estimated_annual_turnover": "$12,000,000 - $22,000,000 USD (NGN 19B - 35B)"
+  },
+  "technographics": {
+    "cms": "WordPress / Modern Web Frontend",
+    "analytics": "Google Analytics 4, Meta Pixel",
+    "crm": "HubSpot / Zoho CRM",
+    "communications": "WhatsApp Business, 3D Virtual Tour Embeds",
+    "hosting": "Cloudflare CDN"
+  },
+  "market_position": {
+    "tier": "Tier 1 - Eco-Luxury & Sustainable Real Estate",
+    "reputation": "4.5 rating on Google Maps (145+ reviews)",
+    "competitors": ["Cosgrove Investment Limited", "Brains & Hammers", "Urban Shelter Limited"]
+  }
+}

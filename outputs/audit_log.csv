@@ -1,0 +1,8 @@
+company_name,date,sales_marketing_score,customer_support_score,product_delivery_score,internal_ops_score,overall_score,pdf_path,seo_status,places_status
+Lee Investment Handlers,2026-09-15,5.5,4.0,5.0,6.5,5.25,outputs/lee_investment_handlers_audit_2026-09-15.pdf,Verified GSC Actuals,Not Found
+Wisdom Kwati Smart City Plc,2026-09-15,5.0,4.5,5.5,5.5,5.13,outputs/wisdom_kwati_smart_city_audit_2026-09-15.pdf,Third-Party Prospect Intelligence,Verified (High Match)
+Austin Plumbing,2026-09-19,4.0,5.0,6.0,5.0,5.00,outputs/clients/austin-plumbing/audit_2026-09-19.pdf,Third-Party Prospect Intelligence,Verified (High Match)
+Cold Is On The Right Plumbing & Air,2026-09-15,5.5,5.0,6.5,5.5,5.63,outputs/cold_is_on_the_right_audit_2026-09-15.pdf,Third-Party Prospect Intelligence,Verified (High Match)
+Austin's Greatest Plumbing,2026-09-15,5.0,5.0,6.5,4.5,5.25,outputs/austins_greatest_plumbing_audit_2026-09-15.pdf,Third-Party Prospect Intelligence,Verified (High Match)
+Plumbing Outfitters,2026-09-15,6.0,6.0,7.0,6.5,6.38,outputs/plumbing_outfitters_audit_2026-09-15.pdf,Third-Party Prospect Intelligence,Verified (High Match)
+Clarke Kent Plumbing,2026-09-15,4.5,4.5,6.0,5.0,5.0,outputs/clarke_kent_plumbing_audit_2026-09-15.pdf,Third-Party Prospect Intelligence,Verified (High Match)
