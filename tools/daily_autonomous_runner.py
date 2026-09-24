@@ -42,32 +42,39 @@ def log_step(title):
     print(f" [AUTONOMOUS ENGINE] {datetime.now().strftime('%Y-%m-%d %H:%M:%S')} | {title}")
     print("="*70, flush=True)
 
-def call_gemini(prompt: str, api_key: str, model: str = "gemini-1.5-flash") -> str:
+def call_gemini(prompt: str, api_key: str, model: str = "gemini-3.1-flash-lite") -> str:
     """Calls Google Gemini API using native Python urllib (zero external pip dependencies)."""
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
-    payload = {
-        "contents": [{"parts": [{"text": prompt}]}],
-        "generationConfig": {
-            "temperature": 0.4,
-            "maxOutputTokens": 4096
+    candidate_models = [model, "gemini-3.5-flash", "gemini-flash-latest"]
+    for m in candidate_models:
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{m}:generateContent?key={api_key}"
+        payload = {
+            "contents": [{"parts": [{"text": prompt}]}],
+            "generationConfig": {
+                "temperature": 0.4,
+                "maxOutputTokens": 4096
+            }
         }
-    }
-    req = urllib.request.Request(
-        url,
-        data=json.dumps(payload).encode("utf-8"),
-        headers={"Content-Type": "application/json"}
-    )
-    try:
-        with urllib.request.urlopen(req, timeout=45) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
-            return data["candidates"][0]["content"]["parts"][0]["text"]
-    except urllib.error.HTTPError as e:
-        err_msg = e.read().decode("utf-8", errors="replace")
-        print(f"! Gemini API HTTP Error {e.code}: {err_msg}")
-        return ""
-    except Exception as e:
-        print(f"! Gemini API Request failed: {e}")
-        return ""
+        req = urllib.request.Request(
+            url,
+            data=json.dumps(payload).encode("utf-8"),
+            headers={"Content-Type": "application/json"}
+        )
+        for attempt in range(2):
+            try:
+                with urllib.request.urlopen(req, timeout=30) as resp:
+                    data = json.loads(resp.read().decode("utf-8"))
+                    return data["candidates"][0]["content"]["parts"][0]["text"]
+            except urllib.error.HTTPError as e:
+                if e.code == 404:
+                    break
+                if e.code == 503:
+                    time.sleep(2.0)
+                    continue
+                err_msg = e.read().decode("utf-8", errors="replace")
+                print(f"! Gemini API HTTP Error {e.code} ({m}): {err_msg[:120]}")
+            except Exception as e:
+                print(f"! Gemini API Request failed ({m}): {e}")
+    return ""
 
 def run_sourcing_and_audits(gemini_key: str = None):
     log_step("STAGE 1 & 2: SOURCING & 4-PILLAR AI DIAGNOSTICS")
